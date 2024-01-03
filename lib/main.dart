@@ -14,8 +14,10 @@ class MyApp extends StatelessWidget {
       title: 'DeliMeals',
       theme: ThemeData(
         primarySwatch: Colors.pink,
-        colorScheme: ThemeData.light().colorScheme.copyWith(secondary: Colors.amber,),
-        canvasColor: const Color.fromRGBO(255, 254, 229, 1),
+        colorScheme: const ColorScheme.light(
+          onPrimaryContainer: Colors.amber,
+          background:Color.fromRGBO(255, 254, 229, 1)
+        ),
         fontFamily: 'Raleway',
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
@@ -44,6 +46,10 @@ class MyApp extends StatelessWidget {
         CategoryMealsScreen.routeName: (context) => const CategoryMealsScreen(),
         MealDetailScreen.routeName: (context) => const MealDetailScreen(),
       },
+      //onGenerateRoute: , used to prevent user to go in a not defined route and routes him in a choosen route
+      //used when the app failed to load a page and when no routes and onGenerateRoute are not defined
+      onUnknownRoute: ((settings) => MaterialPageRoute(builder: (context) => const CategoriesScreen()))
+
     );
   }
 }
