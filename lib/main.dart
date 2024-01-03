@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals/screens/categories_screen.dart';
 import 'package:meals/screens/category_meals_screen.dart';
+import 'package:meals/screens/filters_screen.dart';
 import 'package:meals/screens/meal_detail_screen.dart';
 import 'package:meals/screens/tabs_screen.dart';
 
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.pink,
           unselectedItemColor: Colors.white
         ),
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: Color.fromRGBO(255, 254, 229, 1)
+        ),
         textTheme: ThemeData.light().textTheme.copyWith(
           bodyLarge: const TextStyle(color: Color.fromRGBO(20, 51, 51, 1)),
           bodyMedium: const TextStyle(color: Color.fromRGBO(20, 51, 51, 1)),
@@ -52,6 +56,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const TabsScreen(),
         CategoryMealsScreen.routeName: (context) => const CategoryMealsScreen(),
         MealDetailScreen.routeName: (context) => const MealDetailScreen(),
+        FiltersScreen.routeName: (context) => const FiltersScreen() 
       },
       //onGenerateRoute: , used to prevent user to go in a not defined route and routes him in a choosen route
       //used when the app failed to load a page and when no routes and onGenerateRoute are not defined
