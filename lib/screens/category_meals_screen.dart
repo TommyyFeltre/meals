@@ -1,19 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:meals/models/meal.dart';
 import 'package:meals/widgets/meal_item.dart';
 import '../utils/dummy_data.dart';
 
-class CategoryMealsScreen extends StatelessWidget {
+class CategoryMealsScreen extends StatefulWidget {
   static const routeName = '/category-meals';
   // final String id;
   // final String title;
   const CategoryMealsScreen({super.key});
 
   @override
+  State<CategoryMealsScreen> createState() => _CategoryMealsScreenState();
+}
+
+class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
+  String title = '';
+  List<Meal> categoryMeals = [];
+  var _loadedInitData = false;
+
+  @override
+  void initState() {
+    
+    super.initState();
+  }
+  
+  @override
+  void didChangeDependencies() {
+    if(!_loadedInitData) {
+      final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+      title = routeArgs['title']!;
+      final String id = routeArgs['id']!;
+      categoryMeals = DUMMY_MEALS.where((meal) => meal.categories.contains(id)).toList();
+      _loadedInitData = true;
+    }
+    
+    super.didChangeDependencies();
+  }
+
+  void _removeMeal(String id) {
+    setState(() {
+      categoryMeals.removeWhere((categotyMeal) => categotyMeal.id == id);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    final String title = routeArgs['title']!;
-    final String id = routeArgs['id']!;
-    final categoryMeals = DUMMY_MEALS.where((meal) => meal.categories.contains(id)).toList();
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: ListView.builder(itemBuilder: (context, index) {
@@ -23,7 +54,8 @@ class CategoryMealsScreen extends StatelessWidget {
           imageUrl: categoryMeals[index].imageUrl,
           duration: categoryMeals[index].duration,
           complexity: categoryMeals[index].complexity,
-          affordability: categoryMeals[index].affordability
+          affordability: categoryMeals[index].affordability,
+          removeItem: _removeMeal,
         );
       }, itemCount: categoryMeals.length,)
     );
